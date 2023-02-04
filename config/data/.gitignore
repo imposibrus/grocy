@@ -1,0 +1,6 @@
+*
+!.gitignore
+!viewcache
+!plugins
+!config.php
+

@@ -1,0 +1,15 @@
+version: "2.1"
+services:
+  grocy:
+    image: linuxserver/grocy:3.3.2
+    container_name: grocy
+    environment:
+      - PUID=1001
+      - PGID=33
+      - TZ=Europe/Moscow
+    volumes:
+      - ./config:/config
+    ports:
+      - 8090:80
+    restart: unless-stopped
+
