@@ -1,4 +1,9 @@
 version: "2.1"
+
+networks:
+  traefik:
+    external: true
+
 services:
   grocy:
     image: linuxserver/grocy:3.3.2
@@ -9,7 +14,16 @@ services:
       - TZ=Europe/Moscow
     volumes:
       - ./config:/config
-    ports:
-      - 8090:80
+    expose:
+      - 80
     restart: unless-stopped
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grocy.rule=Host(`$DOMAIN`)"
+      - "traefik.http.routers.grocy-secure.rule=Host(`$DOMAIN`)"
+      - "traefik.http.routers.grocy-secure.tls.certresolver=default"
+      - "traefik.http.routers.grocy-secure.service=grocy"
+      - "traefik.http.services.grocy.loadbalancer.server.port=80"
 
